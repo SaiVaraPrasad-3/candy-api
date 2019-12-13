@@ -69,6 +69,12 @@ class UserController extends BaseController
         $user = $this->users->getByHashedId(
             $request->user()->encodedId()
         );
+
+        return new UserResource(
+            $request->user()->load([
+                'addresses', 'roles.permissions'
+            ])
+        );
         return $this->respondWithItem($user, new UserTransformer);
     }
 
